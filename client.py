@@ -1,5 +1,7 @@
 import message
 import channel
+import user
+import server
 
 class Client:
     token=""
@@ -13,4 +15,10 @@ class Client:
         await message.sendmessage(channelID,data,self.token,self.sessiontype)
     
     def fetchchannel(self,channelID):
-        return channel.Channel(channelID,self.sessiontype,self.token)
+        return channel.Channel(channelID,self.token,self.sessiontype)
+    
+    def fetchuser(self, userID):
+        return user.User(userID,self.token, self.sessiontype)
+    
+    def fetchserver(self, serverID):
+        return server.Server(serverID,self.token,self.sessiontype)

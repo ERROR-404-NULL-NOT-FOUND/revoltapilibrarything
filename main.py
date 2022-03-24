@@ -2,11 +2,16 @@ import client
 import asyncio
 async def main():
     
-    token="S9WfSsrJ9s4J0hqpLFy63HBO2gDTVKXRCbPbnJ4WNKBZohgSDgsrpTVzh0q5JdkF"
+    token="token"
     sessiontype='bot'
     bot=client.Client(token, sessiontype)
-    channelid="01FH65V408XWSB0VKR5GZYQ9K7"
+    serverid="server id"
+    channelid="channel id"
+    userid="userid"
+    server=bot.fetchserver(serverid)
     channel=bot.fetchchannel(channelid)
-    await channel.sendmessage('{"content":"test"}')
-    await bot.sendmessage(channelid,'{"content":"test"}')
+    user=bot.fetchchannel(userid)
+    print(await server.fetchdata())
+    print(await channel.fetchdata())
+    print(await user.fetchdata())
 asyncio.run(main())
