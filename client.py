@@ -2,6 +2,7 @@ import message
 import channel
 import user
 import server
+import role
 
 class Client:
     token=""
@@ -22,3 +23,9 @@ class Client:
     
     def fetchserver(self, serverID):
         return server.Server(serverID,self.token,self.sessiontype)
+    
+    def fetchmember(self, serverID, userID):
+        return server.Member(serverID,userID,self.token, self.sessiontype)
+    
+    def fetchrole(self, serverID, roleID):
+        return role.Role(roleID,serverID,self.token,self.sessiontype)

@@ -1,10 +1,14 @@
 import requests
-async def sendmessage(channelID,data,token,sessiontype):
+
+async def sendmessage(channelID,data,token,sessiontype,raw=False):
     if sessiontype=='bot':
         session='x-bot-token'
     else:
         session='x-session-token'
-    response=requests.post(f'https://api.revolt.chat/channels/{channelID}/messages',headers={session:token}, data=data)
+    if raw:
+        response=requests.post(f'https://api.revolt.chat/channels/{channelID}/messages',headers={session:token}, data=data)
+    else:
+        response=requests.post(f'https://api.revolt.chat/channels/{channelID}/messages',headers={session:token}, data='{'+f'"content":"{data}"'+'}')
     if response.status_code==404:
         print("Invalid channel")
     elif response.status_code==403:
@@ -12,7 +16,9 @@ async def sendmessage(channelID,data,token,sessiontype):
     elif response.status_code==200:
         print("Message sent")
     else:
-        print("There was an error sending the message, possibly a lack of an internet connection")
+        print(f'Unknown status code, "{response.status_code}"')
+
+
 async def fetchmessages(channelID,token,sessiontype,limit:int):
         if sessiontype=='bot':
             session='x-bot-token'

@@ -1,24 +1,36 @@
 import requests
-import json
+import processresponse
 
 class User:
-    id=""
-    token=""
-    session=""
+    id=str
+    token=str
+    session=str
+
+    username=str
+    status=str
+    bot=bool
+    owner=str
+
+    avatar=dict
+    relations=list
+
+    relationship=str
+
     def __init__(self, userID, token, sessiontype):
+        
         if sessiontype=='bot':
             self.session="x-bot-token"
         else:
             self.session='x-session-token'
-        self.token=token
-        self.id=userID
-    
-    async def fetchdata(self):
         data=""
         response=requests.get(f'https://api.revolt.chat/users/{self.id}',headers={self.session:self.token})
-        if response.status_code==200:
-            return json.loads(response.content)
-        elif response.status_code==403:
-            print("Permission denied")
-        elif response.status_code==404:
-            print("User not found")
+        data=processresponse.processresponse(response) 
+
+        self.token=token
+        self.id=userID
+        self.username=data["username"]
+        self.status=data["status"]
+        self.avatar=data["avatar"]
+        self.relations=data["relations"]
+        self.relationship=data["relationship"]
+    #Todo: fetch user bio
