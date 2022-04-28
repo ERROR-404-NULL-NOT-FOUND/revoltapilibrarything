@@ -1,6 +1,8 @@
 import json
 import aiohttp
 
+import message
+
 class Connection:
   token: str
   onMessage=None
@@ -14,11 +16,11 @@ class Connection:
     async for msg in socket:
       msg=json.loads(str(msg.data))
       if(msg["type"]=="Message" and self.onMessage!=None):
-        await self.onMessage(msg)
+        await self.onMessage(message.Message(json.dumps(msg)))
       elif(msg["type"]=="Authenticated" and self.onLogin!=None):
         await self.onLogin()
       elif(msg["type"]=="MessageDelete" and self.onMessageDelete!=None):
-        await self.onMessageDelete(msg)
+        await self.onMessageDelete(message.Message(json.dumps(msg)))
 
   async def connect(self):
     async with aiohttp.ClientSession() as session:

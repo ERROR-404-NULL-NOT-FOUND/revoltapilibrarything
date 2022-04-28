@@ -34,3 +34,24 @@ async def fetchmessages(channelID,token,sessiontype,limit:int):
             print("Invalid channel")
         else:
             print(f'Unknown status code, "{data.status_code}"')
+
+import json
+
+class Message:
+  id: str
+  content: str
+  author: str
+  channel: str
+  replies: list
+  embeds: list
+  masquerade: dict
+
+  def __init__(self, message):
+    message = json.loads(message)
+    self.id = message["_id"]
+    self.author = message["author"]
+    self.content = message["content"]
+    self.channel = message["channel"]
+    if("replies" in message): self.replies = message["replies"]
+    if("embeds" in message): self.embeds = message["embeds"]
+    if("masquerade" in message): self.masquerade = message["masquerade"]
