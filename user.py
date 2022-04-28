@@ -17,20 +17,20 @@ class User:
     relationship=str
 
     def __init__(self, userID, token, sessiontype):
-        
+        self.token = token
+        self.id = userID
         if sessiontype=='bot':
             self.session="x-bot-token"
         else:
             self.session='x-session-token'
-        data=""
         response=requests.get(f'https://api.revolt.chat/users/{self.id}',headers={self.session:self.token})
-        data=processresponse.processresponse(response) 
-
+        data=processresponse.processresponse(response)
         self.token=token
-        self.id=userID
+        self.id=data["_id"]
         self.username=data["username"]
         self.status=data["status"]
         self.avatar=data["avatar"]
-        self.relations=data["relations"]
-        self.relationship=data["relationship"]
+        if("relations" in data and "relationship" in data):
+          self.relations=data["relations"]
+          self.relationship=data["relationship"]
     #Todo: fetch user bio

@@ -10,11 +10,11 @@ async def sendmessage(channelID,data,token,sessiontype,raw=False):
     else:
         response=requests.post(f'https://api.revolt.chat/channels/{channelID}/messages',headers={session:token}, data='{'+f'"content":"{data}"'+'}')
     if response.status_code==404:
-        print("Invalid channel")
+        return 404
     elif response.status_code==403:
-        print("Permission denied")
+        return 403
     elif response.status_code==200:
-        print("Message sent")
+        return 0
     else:
         print(f'Unknown status code, "{response.status_code}"')
 
