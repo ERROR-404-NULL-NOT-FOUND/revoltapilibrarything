@@ -20,7 +20,7 @@ class Connection:
       elif(msg["type"]=="Authenticated" and self.onLogin!=None):
         await self.onLogin()
       elif(msg["type"]=="MessageDelete" and self.onMessageDelete!=None):
-        await self.onMessageDelete(message.Message(json.dumps(msg)))
+        await self.onMessageDelete(msg)
 
   async def connect(self):
     async with aiohttp.ClientSession() as session:

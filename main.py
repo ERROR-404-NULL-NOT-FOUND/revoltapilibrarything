@@ -8,11 +8,14 @@ async def onMessage(message):
   print(f'[{bot.fetchuser(message.author).username}]: {message.content}')
   if(message.author!=bot.user.id):
     await bot.sendmessage(message.channel,"REPLY")
-      
+
+async def onMessageDelete(message):
+  print(f'[{message["id"]}]: DELETED')
 async def onLogin():
   print(f'Logged in as {bot.user.username}')
 
 async def main():
+    bot.addEventListener("messagedelete",onMessageDelete)
     bot.addEventListener("message",onMessage)
     bot.addEventListener("login", onLogin)
     await bot.connect()
