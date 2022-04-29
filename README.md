@@ -14,4 +14,4 @@ Because I was bored, and I needed something to turn in as a final project for my
 - Message sending
 - Support for both user and bot tokens
 ### Documentation
-Documentation can be found [here](https://github.com/ERROR-404-NULL-NOT-FOUND/revoltapilibrarything/wiki)
+Documentation can be found [here](https://refined-github-html-preview.kidonng.workers.dev/ERROR-404-NULL-NOT-FOUND/revoltapilibrarything/raw/main/Documentation/index.html)
