@@ -3,29 +3,31 @@ import requests
 import json
 
 class Channel:
-    id=""
-    token=""
-    sessiontype=""
-    session=""
-    
+    "Channel class"
+    id: str #:The channel's ID
+    _token: str
+    _session: str
+
     def __init__(self,id,token,sessiontype):
         self.id=id
-        self.token=token
-        self.sessiontype=sessiontype
+        self._token=token
         if sessiontype=='bot':
-            self.session='x-bot-token'
+            self._session='x-bot-token'
         else:
-            self.session='x-session-token'
-    
+            self._session='x-session-token'
+
     async def sendmessage(self,data):
-        await message.sendmessage(self.id,data,self.token,self.sessiontype)
-    
+        "Send a message"
+        await message.sendmessage(self.id,data,self._token,self._sessiontype)
+
     async def fetchmessages(self,limit:int):
-       return await message.fetchmessages(self.id,self.token,self.sessiontype,limit)
-    
+        "Fetches messages"
+        return await message.fetchmessages(self.id,self._token,self._sessiontype,limit)
+
     async def fetchdata(self):
+        "Fetches channel data"
         response=""
-        response=requests.get(f'https://api.revolt.chat/channels/{self.id}',headers={self.session:self.token})
+        response=requests.get(f'https://api.revolt.chat/channels/{self.id}',headers={self._session:self._token})
         if response.status_code==200:
             return json.loads(response.content)
         elif response.status_code==403:

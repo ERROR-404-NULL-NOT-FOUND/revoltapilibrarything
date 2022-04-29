@@ -3,21 +3,22 @@ import requests
 import json
 import processresponse
 class Role:
-    roleID=""
-    token=""
-    session=""
-    name=""
-    serverID=""
+    roleID: str #:The role's id
+    _token: str
+    _session: str
+    name: str #:The role's name
+    serverID: str #:The role's server ID
     def __init__(self,roleID,serverID,token,session):
         self.roleID=roleID
         self.serverID=serverID
-        self.token=token
-        self.session=session
+        self._token=token
+        self._session=session
         response=requests.get(f'https://api.revolt.chat/servers/{serverID}',headers={session:token})
         data=processresponse.processresponse(response)
         self.name=data["roles"][roleID]["name"]
-    
+
     async def fetchinfo(self):
-        response=requests.get(f'https://api.revolt.chat/servers/{self.serverID}',headers={self.session:self.token})
+        """Fetches info about the role"""
+        response=requests.get(f'https://api.revolt.chat/servers/{self.serverID}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
         return data["roles"][self.roleID]

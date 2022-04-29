@@ -1,17 +1,18 @@
 import json
 import aiohttp
+from typing import Callable
 
 import message
 
 class Connection:
-  token: str
-  onMessage=None
-  onLogin=None
-  onMessageDelete=None
-  
+  _token: str
+  onMessage: Callable #:Function for on message
+  onLogin: Callable #:Function for on login
+  onMessageDelete: Callable #:Function for on message delete
+
   def __init__(self,token):
-    self.token=token
-    
+    self._token=token
+
   async def eventProcessor(self,socket):
     async for msg in socket:
       msg=json.loads(str(msg.data))
@@ -23,17 +24,23 @@ class Connection:
         await self.onMessageDelete(msg)
 
   async def connect(self):
+    "Establish websocket connection"
     async with aiohttp.ClientSession() as session:
       async with session.ws_connect("wss://ws.revolt.chat") as socket:
         await socket.send_str(json.dumps({
           "type":"Authenticate",
-          "token":self.token
+          "token":self._token
         }))
         await self.eventProcessor(socket)
 
 
-  def addEventListener(self, type: str, function):
+  def addEventListener(self, type: str, function: Callable):
+    """Add a function to run when an event is received
+    Available values for 'type':
+    "message"
+    "messagedelete"
+    "login"
+    """
     if(type=="message"): self.onMessage=function
     elif(type=="login"): self.onLogin=function
     elif(type=="messagedelete"): self.onMessageDelete=function
-    

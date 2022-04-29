@@ -2,30 +2,30 @@ import requests
 import processresponse
 
 class User:
-    id=str
-    token=str
-    session=str
+    id:str #:User ID
+    _token:str #:Bot token, used internally
+    _session:str #:Bot token type, also used internally
 
-    username=str
-    status=str
-    bot=bool
-    owner=str
+    username:str #:User's name
+    status:str #:User's status
+    bot:bool #:Whether or not the user is a bot
+    owner:str #:If user is a bot, the ID of the owner
 
-    avatar=dict
-    relations=list
+    avatar:dict #:User avatar
+    relations:list #:User relations
 
-    relationship=str
+    relationship:str #:User relationship
 
     def __init__(self, userID, token, sessiontype):
-        self.token = token
+        self._token = token
         self.id = userID
         if sessiontype=='bot':
-            self.session="x-bot-token"
+            self._session="x-bot-token"
         else:
-            self.session='x-session-token'
-        response=requests.get(f'https://api.revolt.chat/users/{self.id}',headers={self.session:self.token})
+            self._session='x-session-token'
+        response=requests.get(f'https://api.revolt.chat/users/{self.id}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self.token=token
+        self._token=token
         self.id=data["_id"]
         self.username=data["username"]
         self.status=data["status"]

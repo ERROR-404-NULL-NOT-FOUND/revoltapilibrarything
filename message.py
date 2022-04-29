@@ -1,6 +1,7 @@
 import requests
 
 async def sendmessage(channelID,data,token,sessiontype,raw=False):
+    "Sends a message in the supplied channel"
     if sessiontype=='bot':
         session='x-bot-token'
     else:
@@ -20,6 +21,7 @@ async def sendmessage(channelID,data,token,sessiontype,raw=False):
 
 
 async def fetchmessages(channelID,token,sessiontype,limit:int):
+        "Fetches messages from the supplied channel"
         if sessiontype=='bot':
             session='x-bot-token'
         else:
@@ -38,13 +40,13 @@ async def fetchmessages(channelID,token,sessiontype,limit:int):
 import json
 
 class Message:
-  id: str
-  content: str
-  author: str
-  channel: str
-  replies: list
-  embeds: list
-  masquerade: dict
+  id: str #:Message ID
+  content: str #:Message content
+  author: str #:Message author ID
+  channel: str #:Message channel
+  replies: list #:Message replies
+  embeds: list #:Message embeds
+  masquerade: dict #:Message masquerade
 
   def __init__(self, message):
     message = json.loads(message)
