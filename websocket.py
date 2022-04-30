@@ -6,9 +6,9 @@ import message
 
 class Connection:
   _token: str
-  onMessage: Callable #:Function for on message
-  onLogin: Callable #:Function for on login
-  onMessageDelete: Callable #:Function for on message delete
+  onMessage: Callable=None #:Function for on message
+  onLogin: Callable=None #:Function for on login
+  onMessageDelete: Callable=None #:Function for on message delete
 
   def __init__(self,token):
     self._token=token
