@@ -28,8 +28,8 @@ class User:
         self._token=token
         self.id=data["_id"]
         self.username=data["username"]
-        self.status=data["status"]
-        self.avatar=data["avatar"]
+        if("status" in data): self.status=data["status"]
+        if("avatar" in data): self.avatar=data["avatar"]
         if("relations" in data and "relationship" in data):
           self.relations=data["relations"]
           self.relationship=data["relationship"]
