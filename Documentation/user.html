@@ -36,6 +36,12 @@ class User:
 
     username:str #:User&#39;s name
     status:str #:User&#39;s status
+    online: bool #:Whether or not the user is online
+
+    profile: dict #:User&#39;s profile
+    badges: int #:Bitfield of user&#39;s badges
+    flags: int #:Enum of user&#39;s flags
+
     bot:bool #:Whether or not the user is a bot
     owner:str #:If user is a bot, the ID of the owner
 
@@ -53,14 +59,17 @@ class User:
             self._session=&#39;x-session-token&#39;
         response=requests.get(f&#39;https://api.revolt.chat/users/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self._token=token
         self.id=data[&#34;_id&#34;]
         self.username=data[&#34;username&#34;]
-        self.status=data[&#34;status&#34;]
-        self.avatar=data[&#34;avatar&#34;]
-        if(&#34;relations&#34; in data and &#34;relationship&#34; in data):
-          self.relations=data[&#34;relations&#34;]
-          self.relationship=data[&#34;relationship&#34;]
+        self.bot=data[&#34;bot&#34;]
+        if(self.bot): self.owner=data[&#34;owner&#34;]
+        if(&#34;profile&#34; in data): self.profile=data[&#34;profile&#34;]
+        if(&#34;badges&#34; in data): self.badges=data[&#34;badges&#34;]
+        if(&#34;flags&#34; in data): self.flags=data[&#34;flags&#34;]
+        if(&#34;status&#34; in data): self.status=data[&#34;status&#34;]
+        if(&#34;avatar&#34; in data): self.avatar=data[&#34;avatar&#34;]
+        if(&#34;relations&#34; in data): self.relations=data[&#34;relations&#34;]
+        if(&#34;relationship&#34; in data): self.relationship=data[&#34;relationship&#34;]
     #Todo: fetch user bio</code></pre>
 </details>
 </section>
@@ -90,6 +99,12 @@ class User:
 
     username:str #:User&#39;s name
     status:str #:User&#39;s status
+    online: bool #:Whether or not the user is online
+
+    profile: dict #:User&#39;s profile
+    badges: int #:Bitfield of user&#39;s badges
+    flags: int #:Enum of user&#39;s flags
+
     bot:bool #:Whether or not the user is a bot
     owner:str #:If user is a bot, the ID of the owner
 
@@ -107,14 +122,17 @@ class User:
             self._session=&#39;x-session-token&#39;
         response=requests.get(f&#39;https://api.revolt.chat/users/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self._token=token
         self.id=data[&#34;_id&#34;]
         self.username=data[&#34;username&#34;]
-        self.status=data[&#34;status&#34;]
-        self.avatar=data[&#34;avatar&#34;]
-        if(&#34;relations&#34; in data and &#34;relationship&#34; in data):
-          self.relations=data[&#34;relations&#34;]
-          self.relationship=data[&#34;relationship&#34;]
+        self.bot=data[&#34;bot&#34;]
+        if(self.bot): self.owner=data[&#34;owner&#34;]
+        if(&#34;profile&#34; in data): self.profile=data[&#34;profile&#34;]
+        if(&#34;badges&#34; in data): self.badges=data[&#34;badges&#34;]
+        if(&#34;flags&#34; in data): self.flags=data[&#34;flags&#34;]
+        if(&#34;status&#34; in data): self.status=data[&#34;status&#34;]
+        if(&#34;avatar&#34; in data): self.avatar=data[&#34;avatar&#34;]
+        if(&#34;relations&#34; in data): self.relations=data[&#34;relations&#34;]
+        if(&#34;relationship&#34; in data): self.relationship=data[&#34;relationship&#34;]
     #Todo: fetch user bio</code></pre>
 </details>
 <h3>Class variables</h3>
@@ -123,7 +141,15 @@ class User:
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="user.User.badges"><code class="name">var <span class="ident">badges</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="user.User.bot"><code class="name">var <span class="ident">bot</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="user.User.flags"><code class="name">var <span class="ident">flags</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -131,7 +157,15 @@ class User:
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="user.User.online"><code class="name">var <span class="ident">online</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="user.User.owner"><code class="name">var <span class="ident">owner</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="user.User.profile"><code class="name">var <span class="ident">profile</span> : dict</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -168,9 +202,13 @@ class User:
 <h4><code><a title="user.User" href="#user.User">User</a></code></h4>
 <ul class="two-column">
 <li><code><a title="user.User.avatar" href="#user.User.avatar">avatar</a></code></li>
+<li><code><a title="user.User.badges" href="#user.User.badges">badges</a></code></li>
 <li><code><a title="user.User.bot" href="#user.User.bot">bot</a></code></li>
+<li><code><a title="user.User.flags" href="#user.User.flags">flags</a></code></li>
 <li><code><a title="user.User.id" href="#user.User.id">id</a></code></li>
+<li><code><a title="user.User.online" href="#user.User.online">online</a></code></li>
 <li><code><a title="user.User.owner" href="#user.User.owner">owner</a></code></li>
+<li><code><a title="user.User.profile" href="#user.User.profile">profile</a></code></li>
 <li><code><a title="user.User.relations" href="#user.User.relations">relations</a></code></li>
 <li><code><a title="user.User.relationship" href="#user.User.relationship">relationship</a></code></li>
 <li><code><a title="user.User.status" href="#user.User.status">status</a></code></li>
