@@ -1,4 +1,5 @@
 import requests
+import processresponse
 
 async def sendmessage(channelID,data,token,sessiontype,raw=False):
     "Sends a message in the supplied channel"
@@ -10,14 +11,7 @@ async def sendmessage(channelID,data,token,sessiontype,raw=False):
         response=requests.post(f'https://api.revolt.chat/channels/{channelID}/messages',headers={session:token}, data=data)
     else:
         response=requests.post(f'https://api.revolt.chat/channels/{channelID}/messages',headers={session:token}, data='{'+f'"content":"{data}"'+'}')
-    if response.status_code==404:
-        return 404
-    elif response.status_code==403:
-        return 403
-    elif response.status_code==200:
-        return 0
-    else:
-        print(f'Unknown status code, "{response.status_code}"')
+    return processresponse.processresponse(response)
 
 
 async def fetchmessages(channelID,token,sessiontype,limit:int):
@@ -28,14 +22,7 @@ async def fetchmessages(channelID,token,sessiontype,limit:int):
             session='x-session-token'
         data=""
         data=requests.get(f'https://api.revolt.chat/channels/{channelID}/messages',headers={session:token})
-        if data.status_code==200:
-            return data
-        elif data.status_code==403:
-            print("Permission denied")
-        elif data.status_code==404:
-            print("Invalid channel")
-        else:
-            print(f'Unknown status code, "{data.status_code}"')
+        return processresponse.processresponse(data)
 
 import json
 

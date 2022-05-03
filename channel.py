@@ -1,6 +1,7 @@
 import message
 import requests
 import json
+import processresponse
 
 class Channel:
     "Channel class"
@@ -28,9 +29,4 @@ class Channel:
         "Fetches channel data"
         response=""
         response=requests.get(f'https://api.revolt.chat/channels/{self.id}',headers={self._session:self._token})
-        if response.status_code==200:
-            return json.loads(response.content)
-        elif response.status_code==403:
-            print("Permission denied")
-        elif response.status_code==404:
-            print("Channel not found")
+        return processresponse.processresponse(response)

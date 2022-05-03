@@ -36,16 +36,16 @@ class Server:
 
         response=requests.get(f'https://api.revolt.chat/servers/{self.id}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-
-        self.owner=data["owner"]
-        self.channels=data["channels"]
-        self.categories=data["categories"]
-        self.roles=data["roles"]
-        self.defaultperms=data["default_permissions"]
-        self.icon=data["icon"]
-        self.banner=data["banner"]
-        self.name=data["name"]
-        self.description=data["description"]
+        if(data is dict):
+            self.owner=data["owner"]
+            self.channels=data["channels"]
+            self.categories=data["categories"]
+            self.roles=data["roles"]
+            self.defaultperms=data["default_permissions"]
+            self.icon=data["icon"]
+            self.banner=data["banner"]
+            self.name=data["name"]
+            self.description=data["description"]
 
     async def fetchmembers(self):
         "Fetches server members"
@@ -58,7 +58,9 @@ class Server:
         data=""
         response=requests.get(f'https://api.revolt.chat/servers/{self.id}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        return data["roles"]
+        if(data is dict): return data["roles"]
+        else: return data
+
     async def fetchrole(self,roleID):
         return role.Role(roleID,self.id,self._token,self._session)
 
@@ -81,9 +83,10 @@ class Member:
             self._session='x-session-token'
         response=requests.get(f'https://api.revolt.chat/servers/{self.server}/members/{self.user}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self.roles=data["roles"]
-        self.nickname=data["nickname"]
-        self.avatar=data["avatar"]
+        if(data is dict):
+            self.roles=data["roles"]
+            self.nickname=data["nickname"]
+            self.avatar=data["avatar"]
 
     async def edit(self,roles=None,nickname=None,avatar=None):
         "Edits the server member with the supplied parameters"
