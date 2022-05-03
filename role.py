@@ -15,10 +15,10 @@ class Role:
         self._session=session
         response=requests.get(f'https://api.revolt.chat/servers/{serverID}',headers={session:token})
         data=processresponse.processresponse(response)
-        if(data is dict): self.name=data["roles"][roleID]["name"]
+        if(data ): self.name=data["roles"][roleID]["name"]
 
     async def fetchinfo(self):
         """Fetches info about the role"""
         response=requests.get(f'https://api.revolt.chat/servers/{self.serverID}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        if(data is dict): return data["roles"][self.roleID]
+        if(data ): return data["roles"][self.roleID]

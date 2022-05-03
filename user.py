@@ -31,11 +31,11 @@ class User:
             self._session='x-session-token'
         response=requests.get(f'https://api.revolt.chat/users/{self.id}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        if(data is dict):
+        if(data):
             self.id=data["_id"]
             self.username=data["username"]
-            self.bot=data["bot"]
-            if(self.bot): self.owner=data["owner"]
+            if("bot" in data): self.bot=True
+            if("bot" in data): self.owner=data["bot"]["owner"]
             if("profile" in data): self.profile=data["profile"]
             if("badges" in data): self.badges=data["badges"]
             if("flags" in data): self.flags=data["flags"]

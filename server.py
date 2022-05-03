@@ -36,7 +36,7 @@ class Server:
 
         response=requests.get(f'https://api.revolt.chat/servers/{self.id}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        if(data is dict):
+        if(data ):
             self.owner=data["owner"]
             self.channels=data["channels"]
             self.categories=data["categories"]
@@ -58,7 +58,7 @@ class Server:
         data=""
         response=requests.get(f'https://api.revolt.chat/servers/{self.id}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        if(data is dict): return data["roles"]
+        if(data ): return data["roles"]
         else: return data
 
     async def fetchrole(self,roleID):
@@ -83,7 +83,7 @@ class Member:
             self._session='x-session-token'
         response=requests.get(f'https://api.revolt.chat/servers/{self.server}/members/{self.user}',headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        if(data is dict):
+        if(data ):
             self.roles=data["roles"]
             self.nickname=data["nickname"]
             self.avatar=data["avatar"]
