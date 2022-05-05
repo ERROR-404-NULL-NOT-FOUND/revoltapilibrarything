@@ -1,5 +1,6 @@
 import json
 import aiohttp
+import asyncio
 from typing import Callable
 
 import message
@@ -17,11 +18,11 @@ class Connection:
     async for msg in socket:
       msg=json.loads(str(msg.data))
       if(msg["type"]=="Message" and self.onMessage!=None):
-        await self.onMessage(message.Message(json.dumps(msg)))
+        asyncio.create_task(self.onMessage(message.Message(json.dumps(msg))))
       elif(msg["type"]=="Authenticated" and self.onLogin!=None):
-        await self.onLogin()
+        asyncio.create_task(self.onLogin())
       elif(msg["type"]=="MessageDelete" and self.onMessageDelete!=None):
-        await self.onMessageDelete(msg)
+        asyncio.create_task(self.onMessageDelete(msg))
 
   async def connect(self):
     "Establish websocket connection"
