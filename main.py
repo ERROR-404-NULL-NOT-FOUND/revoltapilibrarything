@@ -11,6 +11,7 @@ async def onMessage(message):
 
 async def onMessageDelete(message):
   print(f'[{message["id"]}]: DELETED')
+
 async def onLogin():
   print(f'Logged in as {bot.user.username}')
 
