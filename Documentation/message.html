@@ -27,6 +27,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">import requests
+import processresponse
 
 async def sendmessage(channelID,data,token,sessiontype,raw=False):
     &#34;Sends a message in the supplied channel&#34;
@@ -38,14 +39,7 @@ async def sendmessage(channelID,data,token,sessiontype,raw=False):
         response=requests.post(f&#39;https://api.revolt.chat/channels/{channelID}/messages&#39;,headers={session:token}, data=data)
     else:
         response=requests.post(f&#39;https://api.revolt.chat/channels/{channelID}/messages&#39;,headers={session:token}, data=&#39;{&#39;+f&#39;&#34;content&#34;:&#34;{data}&#34;&#39;+&#39;}&#39;)
-    if response.status_code==404:
-        return 404
-    elif response.status_code==403:
-        return 403
-    elif response.status_code==200:
-        return 0
-    else:
-        print(f&#39;Unknown status code, &#34;{response.status_code}&#34;&#39;)
+    return processresponse.processresponse(response)
 
 
 async def fetchmessages(channelID,token,sessiontype,limit:int):
@@ -56,14 +50,7 @@ async def fetchmessages(channelID,token,sessiontype,limit:int):
             session=&#39;x-session-token&#39;
         data=&#34;&#34;
         data=requests.get(f&#39;https://api.revolt.chat/channels/{channelID}/messages&#39;,headers={session:token})
-        if data.status_code==200:
-            return data
-        elif data.status_code==403:
-            print(&#34;Permission denied&#34;)
-        elif data.status_code==404:
-            print(&#34;Invalid channel&#34;)
-        else:
-            print(f&#39;Unknown status code, &#34;{data.status_code}&#34;&#39;)
+        return processresponse.processresponse(data)
 
 import json
 
@@ -75,16 +62,18 @@ class Message:
   replies: list #:Message replies
   embeds: list #:Message embeds
   masquerade: dict #:Message masquerade
+  attachments: list #:Message attachments
 
   def __init__(self, message):
     message = json.loads(message)
     self.id = message[&#34;_id&#34;]
-    self.author = message[&#34;author&#34;]
-    self.content = message[&#34;content&#34;]
     self.channel = message[&#34;channel&#34;]
+    self.author = message[&#34;author&#34;]
+    if(&#34;content&#34; in message): self.content = message[&#34;content&#34;]
     if(&#34;replies&#34; in message): self.replies = message[&#34;replies&#34;]
     if(&#34;embeds&#34; in message): self.embeds = message[&#34;embeds&#34;]
-    if(&#34;masquerade&#34; in message): self.masquerade = message[&#34;masquerade&#34;]</code></pre>
+    if(&#34;masquerade&#34; in message): self.masquerade = message[&#34;masquerade&#34;]
+    if(&#34;attachments&#34; in message): self.attachments = message[&#34;attachments&#34;]</code></pre>
 </details>
 </section>
 <section>
@@ -111,14 +100,7 @@ class Message:
             session=&#39;x-session-token&#39;
         data=&#34;&#34;
         data=requests.get(f&#39;https://api.revolt.chat/channels/{channelID}/messages&#39;,headers={session:token})
-        if data.status_code==200:
-            return data
-        elif data.status_code==403:
-            print(&#34;Permission denied&#34;)
-        elif data.status_code==404:
-            print(&#34;Invalid channel&#34;)
-        else:
-            print(f&#39;Unknown status code, &#34;{data.status_code}&#34;&#39;)</code></pre>
+        return processresponse.processresponse(data)</code></pre>
 </details>
 </dd>
 <dt id="message.sendmessage"><code class="name flex">
@@ -140,14 +122,7 @@ class Message:
         response=requests.post(f&#39;https://api.revolt.chat/channels/{channelID}/messages&#39;,headers={session:token}, data=data)
     else:
         response=requests.post(f&#39;https://api.revolt.chat/channels/{channelID}/messages&#39;,headers={session:token}, data=&#39;{&#39;+f&#39;&#34;content&#34;:&#34;{data}&#34;&#39;+&#39;}&#39;)
-    if response.status_code==404:
-        return 404
-    elif response.status_code==403:
-        return 403
-    elif response.status_code==200:
-        return 0
-    else:
-        print(f&#39;Unknown status code, &#34;{response.status_code}&#34;&#39;)</code></pre>
+    return processresponse.processresponse(response)</code></pre>
 </details>
 </dd>
 </dl>
@@ -173,19 +148,25 @@ class Message:
   replies: list #:Message replies
   embeds: list #:Message embeds
   masquerade: dict #:Message masquerade
+  attachments: list #:Message attachments
 
   def __init__(self, message):
     message = json.loads(message)
     self.id = message[&#34;_id&#34;]
-    self.author = message[&#34;author&#34;]
-    self.content = message[&#34;content&#34;]
     self.channel = message[&#34;channel&#34;]
+    self.author = message[&#34;author&#34;]
+    if(&#34;content&#34; in message): self.content = message[&#34;content&#34;]
     if(&#34;replies&#34; in message): self.replies = message[&#34;replies&#34;]
     if(&#34;embeds&#34; in message): self.embeds = message[&#34;embeds&#34;]
-    if(&#34;masquerade&#34; in message): self.masquerade = message[&#34;masquerade&#34;]</code></pre>
+    if(&#34;masquerade&#34; in message): self.masquerade = message[&#34;masquerade&#34;]
+    if(&#34;attachments&#34; in message): self.attachments = message[&#34;attachments&#34;]</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
+<dt id="message.Message.attachments"><code class="name">var <span class="ident">attachments</span> : list</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="message.Message.author"><code class="name">var <span class="ident">author</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
@@ -236,6 +217,7 @@ class Message:
 <li>
 <h4><code><a title="message.Message" href="#message.Message">Message</a></code></h4>
 <ul class="two-column">
+<li><code><a title="message.Message.attachments" href="#message.Message.attachments">attachments</a></code></li>
 <li><code><a title="message.Message.author" href="#message.Message.author">author</a></code></li>
 <li><code><a title="message.Message.channel" href="#message.Message.channel">channel</a></code></li>
 <li><code><a title="message.Message.content" href="#message.Message.content">content</a></code></li>

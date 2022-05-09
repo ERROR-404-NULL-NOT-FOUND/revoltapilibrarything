@@ -43,13 +43,14 @@ class Role:
         self._session=session
         response=requests.get(f&#39;https://api.revolt.chat/servers/{serverID}&#39;,headers={session:token})
         data=processresponse.processresponse(response)
-        self.name=data[&#34;roles&#34;][roleID][&#34;name&#34;]
+        if(data):
+            self.name=data[&#34;roles&#34;][roleID][&#34;name&#34;]
 
     async def fetchinfo(self):
         &#34;&#34;&#34;Fetches info about the role&#34;&#34;&#34;
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.serverID}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        return data[&#34;roles&#34;][self.roleID]</code></pre>
+        if(data ): return data[&#34;roles&#34;][self.roleID]</code></pre>
 </details>
 </section>
 <section>
@@ -84,13 +85,14 @@ class Role:
         self._session=session
         response=requests.get(f&#39;https://api.revolt.chat/servers/{serverID}&#39;,headers={session:token})
         data=processresponse.processresponse(response)
-        self.name=data[&#34;roles&#34;][roleID][&#34;name&#34;]
+        if(data):
+            self.name=data[&#34;roles&#34;][roleID][&#34;name&#34;]
 
     async def fetchinfo(self):
         &#34;&#34;&#34;Fetches info about the role&#34;&#34;&#34;
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.serverID}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        return data[&#34;roles&#34;][self.roleID]</code></pre>
+        if(data ): return data[&#34;roles&#34;][self.roleID]</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -122,7 +124,7 @@ class Role:
     &#34;&#34;&#34;Fetches info about the role&#34;&#34;&#34;
     response=requests.get(f&#39;https://api.revolt.chat/servers/{self.serverID}&#39;,headers={self._session:self._token})
     data=processresponse.processresponse(response)
-    return data[&#34;roles&#34;][self.roleID]</code></pre>
+    if(data ): return data[&#34;roles&#34;][self.roleID]</code></pre>
 </details>
 </dd>
 </dl>

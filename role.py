@@ -15,7 +15,8 @@ class Role:
         self._session=session
         response=requests.get(f'https://api.revolt.chat/servers/{serverID}',headers={session:token})
         data=processresponse.processresponse(response)
-        if(data ): self.name=data["roles"][roleID]["name"]
+        if(data):
+            self.name=data["roles"][roleID]["name"]
 
     async def fetchinfo(self):
         """Fetches info about the role"""

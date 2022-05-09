@@ -64,16 +64,17 @@ class Server:
 
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
+        if(data ):
+            self.owner=data[&#34;owner&#34;]
+            self.defaultperms=data[&#34;default_permissions&#34;]
+            self.name=data[&#34;name&#34;]
 
-        self.owner=data[&#34;owner&#34;]
-        self.channels=data[&#34;channels&#34;]
-        self.categories=data[&#34;categories&#34;]
-        self.roles=data[&#34;roles&#34;]
-        self.defaultperms=data[&#34;default_permissions&#34;]
-        self.icon=data[&#34;icon&#34;]
-        self.banner=data[&#34;banner&#34;]
-        self.name=data[&#34;name&#34;]
-        self.description=data[&#34;description&#34;]
+            if(&#34;description&#34; in data): self.description=data[&#34;description&#34;]
+            if(&#34;icon&#34; in data): self.icon=data[&#34;icon&#34;]
+            if(&#34;bannar&#34; in data): self.banner=data[&#34;banner&#34;]
+            if(&#34;channels&#34; in data): self.channels=data[&#34;channels&#34;]
+            if(&#34;categories&#34; in data): self.categories=data[&#34;categories&#34;]
+            if(&#34;roles&#34; in data): self.roles=data[&#34;roles&#34;]
 
     async def fetchmembers(self):
         &#34;Fetches server members&#34;
@@ -86,18 +87,20 @@ class Server:
         data=&#34;&#34;
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        return data[&#34;roles&#34;]
+        if(data ): return data[&#34;roles&#34;]
+        else: return data
+
     async def fetchrole(self,roleID):
         return role.Role(roleID,self.id,self._token,self._session)
 
 class Member:
-    server=str
-    user=str
-    token=str
+    server: str #:Server&#39;s id
+    user: str #:User&#39;s id
+    _token=str
 
-    roles=list
-    nickname=&#34;&#34;
-    avatar=dict
+    roles: list #:Member&#39;s roles
+    nickname: str #:Member&#39;s nickname
+    avatar: list #:Member&#39;s avatar
 
     def __init__(self,serverID,userID,token,sessiontype):
         self.server=serverID
@@ -109,9 +112,10 @@ class Member:
             self._session=&#39;x-session-token&#39;
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.server}/members/{self.user}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self.roles=data[&#34;roles&#34;]
-        self.nickname=data[&#34;nickname&#34;]
-        self.avatar=data[&#34;avatar&#34;]
+        if(data ):
+            self.roles=data[&#34;roles&#34;]
+            self.nickname=data[&#34;nickname&#34;]
+            self.avatar=data[&#34;avatar&#34;]
 
     async def edit(self,roles=None,nickname=None,avatar=None):
         &#34;Edits the server member with the supplied parameters&#34;
@@ -144,13 +148,13 @@ class Member:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Member:
-    server=str
-    user=str
-    token=str
+    server: str #:Server&#39;s id
+    user: str #:User&#39;s id
+    _token=str
 
-    roles=list
-    nickname=&#34;&#34;
-    avatar=dict
+    roles: list #:Member&#39;s roles
+    nickname: str #:Member&#39;s nickname
+    avatar: list #:Member&#39;s avatar
 
     def __init__(self,serverID,userID,token,sessiontype):
         self.server=serverID
@@ -162,9 +166,10 @@ class Member:
             self._session=&#39;x-session-token&#39;
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.server}/members/{self.user}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self.roles=data[&#34;roles&#34;]
-        self.nickname=data[&#34;nickname&#34;]
-        self.avatar=data[&#34;avatar&#34;]
+        if(data ):
+            self.roles=data[&#34;roles&#34;]
+            self.nickname=data[&#34;nickname&#34;]
+            self.avatar=data[&#34;avatar&#34;]
 
     async def edit(self,roles=None,nickname=None,avatar=None):
         &#34;Edits the server member with the supplied parameters&#34;
@@ -178,65 +183,25 @@ class Member:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="server.Member.avatar"><code class="name">var <span class="ident">avatar</span></code></dt>
-<dd>
-<div class="desc"><p>dict() -&gt; new empty dictionary
-dict(mapping) -&gt; new dictionary initialized from a mapping object's
-(key, value) pairs
-dict(iterable) -&gt; new dictionary initialized as if via:
-d = {}
-for k, v in iterable:
-d[k] = v
-dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
-in the keyword argument list.
-For example:
-dict(one=1, two=2)</p></div>
-</dd>
-<dt id="server.Member.nickname"><code class="name">var <span class="ident">nickname</span></code></dt>
+<dt id="server.Member.avatar"><code class="name">var <span class="ident">avatar</span> : list</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="server.Member.roles"><code class="name">var <span class="ident">roles</span></code></dt>
+<dt id="server.Member.nickname"><code class="name">var <span class="ident">nickname</span> : str</code></dt>
 <dd>
-<div class="desc"><p>Built-in mutable sequence.</p>
-<p>If no argument is given, the constructor creates a new empty list.
-The argument must be an iterable if specified.</p></div>
+<div class="desc"></div>
 </dd>
-<dt id="server.Member.server"><code class="name">var <span class="ident">server</span></code></dt>
+<dt id="server.Member.roles"><code class="name">var <span class="ident">roles</span> : list</code></dt>
 <dd>
-<div class="desc"><p>str(object='') -&gt; str
-str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
-<p>Create a new string object from the given object. If encoding or
-errors is specified, then the object must expose a data buffer
-that will be decoded using the given encoding and error handler.
-Otherwise, returns the result of object.<strong>str</strong>() (if defined)
-or repr(object).
-encoding defaults to sys.getdefaultencoding().
-errors defaults to 'strict'.</p></div>
+<div class="desc"></div>
 </dd>
-<dt id="server.Member.token"><code class="name">var <span class="ident">token</span></code></dt>
+<dt id="server.Member.server"><code class="name">var <span class="ident">server</span> : str</code></dt>
 <dd>
-<div class="desc"><p>str(object='') -&gt; str
-str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
-<p>Create a new string object from the given object. If encoding or
-errors is specified, then the object must expose a data buffer
-that will be decoded using the given encoding and error handler.
-Otherwise, returns the result of object.<strong>str</strong>() (if defined)
-or repr(object).
-encoding defaults to sys.getdefaultencoding().
-errors defaults to 'strict'.</p></div>
+<div class="desc"></div>
 </dd>
-<dt id="server.Member.user"><code class="name">var <span class="ident">user</span></code></dt>
+<dt id="server.Member.user"><code class="name">var <span class="ident">user</span> : str</code></dt>
 <dd>
-<div class="desc"><p>str(object='') -&gt; str
-str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
-<p>Create a new string object from the given object. If encoding or
-errors is specified, then the object must expose a data buffer
-that will be decoded using the given encoding and error handler.
-Otherwise, returns the result of object.<strong>str</strong>() (if defined)
-or repr(object).
-encoding defaults to sys.getdefaultencoding().
-errors defaults to 'strict'.</p></div>
+<div class="desc"></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -306,16 +271,17 @@ errors defaults to 'strict'.</p></div>
 
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
+        if(data ):
+            self.owner=data[&#34;owner&#34;]
+            self.defaultperms=data[&#34;default_permissions&#34;]
+            self.name=data[&#34;name&#34;]
 
-        self.owner=data[&#34;owner&#34;]
-        self.channels=data[&#34;channels&#34;]
-        self.categories=data[&#34;categories&#34;]
-        self.roles=data[&#34;roles&#34;]
-        self.defaultperms=data[&#34;default_permissions&#34;]
-        self.icon=data[&#34;icon&#34;]
-        self.banner=data[&#34;banner&#34;]
-        self.name=data[&#34;name&#34;]
-        self.description=data[&#34;description&#34;]
+            if(&#34;description&#34; in data): self.description=data[&#34;description&#34;]
+            if(&#34;icon&#34; in data): self.icon=data[&#34;icon&#34;]
+            if(&#34;bannar&#34; in data): self.banner=data[&#34;banner&#34;]
+            if(&#34;channels&#34; in data): self.channels=data[&#34;channels&#34;]
+            if(&#34;categories&#34; in data): self.categories=data[&#34;categories&#34;]
+            if(&#34;roles&#34; in data): self.roles=data[&#34;roles&#34;]
 
     async def fetchmembers(self):
         &#34;Fetches server members&#34;
@@ -328,7 +294,9 @@ errors defaults to 'strict'.</p></div>
         data=&#34;&#34;
         response=requests.get(f&#39;https://api.revolt.chat/servers/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        return data[&#34;roles&#34;]
+        if(data ): return data[&#34;roles&#34;]
+        else: return data
+
     async def fetchrole(self,roleID):
         return role.Role(roleID,self.id,self._token,self._session)</code></pre>
 </details>
@@ -420,7 +388,8 @@ errors defaults to 'strict'.</p></div>
     data=&#34;&#34;
     response=requests.get(f&#39;https://api.revolt.chat/servers/{self.id}&#39;,headers={self._session:self._token})
     data=processresponse.processresponse(response)
-    return data[&#34;roles&#34;]</code></pre>
+    if(data ): return data[&#34;roles&#34;]
+    else: return data</code></pre>
 </details>
 </dd>
 </dl>
@@ -444,7 +413,6 @@ errors defaults to 'strict'.</p></div>
 <li><code><a title="server.Member.nickname" href="#server.Member.nickname">nickname</a></code></li>
 <li><code><a title="server.Member.roles" href="#server.Member.roles">roles</a></code></li>
 <li><code><a title="server.Member.server" href="#server.Member.server">server</a></code></li>
-<li><code><a title="server.Member.token" href="#server.Member.token">token</a></code></li>
 <li><code><a title="server.Member.user" href="#server.Member.user">user</a></code></li>
 </ul>
 </li>

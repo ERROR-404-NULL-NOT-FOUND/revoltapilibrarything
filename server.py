@@ -38,14 +38,15 @@ class Server:
         data=processresponse.processresponse(response)
         if(data ):
             self.owner=data["owner"]
-            self.channels=data["channels"]
-            self.categories=data["categories"]
-            self.roles=data["roles"]
             self.defaultperms=data["default_permissions"]
-            self.icon=data["icon"]
-            self.banner=data["banner"]
             self.name=data["name"]
-            self.description=data["description"]
+
+            if("description" in data): self.description=data["description"]
+            if("icon" in data): self.icon=data["icon"]
+            if("bannar" in data): self.banner=data["banner"]
+            if("channels" in data): self.channels=data["channels"]
+            if("categories" in data): self.categories=data["categories"]
+            if("roles" in data): self.roles=data["roles"]
 
     async def fetchmembers(self):
         "Fetches server members"
@@ -65,13 +66,13 @@ class Server:
         return role.Role(roleID,self.id,self._token,self._session)
 
 class Member:
-    server=str
-    user=str
-    token=str
+    server: str #:Server's id
+    user: str #:User's id
+    _token=str
 
-    roles=list
-    nickname=""
-    avatar=dict
+    roles: list #:Member's roles
+    nickname: str #:Member's nickname
+    avatar: list #:Member's avatar
 
     def __init__(self,serverID,userID,token,sessiontype):
         self.server=serverID

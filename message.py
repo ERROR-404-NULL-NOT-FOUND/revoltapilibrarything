@@ -34,13 +34,15 @@ class Message:
   replies: list #:Message replies
   embeds: list #:Message embeds
   masquerade: dict #:Message masquerade
+  attachments: list #:Message attachments
 
   def __init__(self, message):
     message = json.loads(message)
     self.id = message["_id"]
-    self.author = message["author"]
-    self.content = message["content"]
     self.channel = message["channel"]
+    self.author = message["author"]
+    if("content" in message): self.content = message["content"]
     if("replies" in message): self.replies = message["replies"]
     if("embeds" in message): self.embeds = message["embeds"]
     if("masquerade" in message): self.masquerade = message["masquerade"]
+    if("attachments" in message): self.attachments = message["attachments"]

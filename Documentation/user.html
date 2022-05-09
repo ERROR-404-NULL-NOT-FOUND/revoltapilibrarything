@@ -59,17 +59,18 @@ class User:
             self._session=&#39;x-session-token&#39;
         response=requests.get(f&#39;https://api.revolt.chat/users/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self.id=data[&#34;_id&#34;]
-        self.username=data[&#34;username&#34;]
-        self.bot=data[&#34;bot&#34;]
-        if(self.bot): self.owner=data[&#34;owner&#34;]
-        if(&#34;profile&#34; in data): self.profile=data[&#34;profile&#34;]
-        if(&#34;badges&#34; in data): self.badges=data[&#34;badges&#34;]
-        if(&#34;flags&#34; in data): self.flags=data[&#34;flags&#34;]
-        if(&#34;status&#34; in data): self.status=data[&#34;status&#34;]
-        if(&#34;avatar&#34; in data): self.avatar=data[&#34;avatar&#34;]
-        if(&#34;relations&#34; in data): self.relations=data[&#34;relations&#34;]
-        if(&#34;relationship&#34; in data): self.relationship=data[&#34;relationship&#34;]
+        if(data):
+            self.id=data[&#34;_id&#34;]
+            self.username=data[&#34;username&#34;]
+            if(&#34;bot&#34; in data): self.bot=True
+            if(&#34;bot&#34; in data): self.owner=data[&#34;bot&#34;][&#34;owner&#34;]
+            if(&#34;profile&#34; in data): self.profile=data[&#34;profile&#34;]
+            if(&#34;badges&#34; in data): self.badges=data[&#34;badges&#34;]
+            if(&#34;flags&#34; in data): self.flags=data[&#34;flags&#34;]
+            if(&#34;status&#34; in data): self.status=data[&#34;status&#34;]
+            if(&#34;avatar&#34; in data): self.avatar=data[&#34;avatar&#34;]
+            if(&#34;relations&#34; in data): self.relations=data[&#34;relations&#34;]
+            if(&#34;relationship&#34; in data): self.relationship=data[&#34;relationship&#34;]
     #Todo: fetch user bio</code></pre>
 </details>
 </section>
@@ -122,17 +123,18 @@ class User:
             self._session=&#39;x-session-token&#39;
         response=requests.get(f&#39;https://api.revolt.chat/users/{self.id}&#39;,headers={self._session:self._token})
         data=processresponse.processresponse(response)
-        self.id=data[&#34;_id&#34;]
-        self.username=data[&#34;username&#34;]
-        self.bot=data[&#34;bot&#34;]
-        if(self.bot): self.owner=data[&#34;owner&#34;]
-        if(&#34;profile&#34; in data): self.profile=data[&#34;profile&#34;]
-        if(&#34;badges&#34; in data): self.badges=data[&#34;badges&#34;]
-        if(&#34;flags&#34; in data): self.flags=data[&#34;flags&#34;]
-        if(&#34;status&#34; in data): self.status=data[&#34;status&#34;]
-        if(&#34;avatar&#34; in data): self.avatar=data[&#34;avatar&#34;]
-        if(&#34;relations&#34; in data): self.relations=data[&#34;relations&#34;]
-        if(&#34;relationship&#34; in data): self.relationship=data[&#34;relationship&#34;]
+        if(data):
+            self.id=data[&#34;_id&#34;]
+            self.username=data[&#34;username&#34;]
+            if(&#34;bot&#34; in data): self.bot=True
+            if(&#34;bot&#34; in data): self.owner=data[&#34;bot&#34;][&#34;owner&#34;]
+            if(&#34;profile&#34; in data): self.profile=data[&#34;profile&#34;]
+            if(&#34;badges&#34; in data): self.badges=data[&#34;badges&#34;]
+            if(&#34;flags&#34; in data): self.flags=data[&#34;flags&#34;]
+            if(&#34;status&#34; in data): self.status=data[&#34;status&#34;]
+            if(&#34;avatar&#34; in data): self.avatar=data[&#34;avatar&#34;]
+            if(&#34;relations&#34; in data): self.relations=data[&#34;relations&#34;]
+            if(&#34;relationship&#34; in data): self.relationship=data[&#34;relationship&#34;]
     #Todo: fetch user bio</code></pre>
 </details>
 <h3>Class variables</h3>
